@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Blog Côte des voix - Articles sur la technologie, les affaires et le développement personnel">
+  <link rel="icon" type="image/png" href="/Images/favicon.png">
+  <title>Blog — Côte des voix</title>
+  <link rel="stylesheet" href="styles/cdv-design.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body { padding-top: var(--nav-h); }
+
+    /* PAGE HERO */
+    .blog-header {
+      background: var(--ink);
+      padding: 5.5rem 5rem 4.5rem;
+      position: relative; overflow: hidden;
+      min-height: 280px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .blog-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 55% 85% at 85% 50%, rgba(191,78,30,.32) 0%, transparent 68%);
+    }
+    .blog-header-ghost {
+      position: absolute; right: -1rem; bottom: -3rem;
+      font-family: var(--f-serif); font-size: 17rem; font-weight: 200; font-style: italic;
+      color: rgba(191,78,30,.06); line-height: 1;
+      pointer-events: none; user-select: none;
+    }
+    .blog-header-inner { position: relative; z-index: 2; }
+    .blog-header h1 {
+      font-family: var(--f-serif);
+      font-size: clamp(3rem,5.5vw,5.8rem); font-weight: 200; line-height: 1.04;
+      color: #fff;
+      opacity: 0; animation: aFadeUp .9s var(--ease) forwards .15s;
+    }
+    .blog-description {
+      font-family: var(--f-serif); font-size: 1.08rem; font-style: italic; font-weight: 200;
+      color: rgba(242,224,192,.6); max-width: 42rem; margin-top: .85rem; line-height: 1.68;
+      opacity: 0; animation: aFadeUp .9s var(--ease) forwards .3s;
+    }
+
+    /* STICKY SEARCH */
+    .search-container {
+      position: sticky; top: var(--nav-h); z-index: 50;
+      background: rgba(249,245,239,.96); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--ink-10);
+      padding: 1.5rem 5rem;
+    }
+    .search-wrapper {
+      display: flex; align-items: center;
+      max-width: 560px;
+      border: 1.5px solid var(--ink-10);
+      background: var(--warm);
+      transition: border-color .22s, box-shadow .22s;
+    }
+    .search-wrapper:focus-within {
+      border-color: var(--terra);
+      box-shadow: 0 0 0 3px rgba(191,78,30,.1);
+    }
+    #search-input {
+      flex: 1; border: none; background: none;
+      padding: .75rem 1.1rem;
+      font-family: var(--f-body); font-size: .9rem; color: var(--ink); outline: none;
+    }
+    #search-input::placeholder { color: var(--ink-25); }
+    #search-button {
+      background: none; border: none; padding: .75rem 1.1rem;
+      color: var(--ink-25); cursor: pointer; font-size: .9rem;
+      transition: color .2s;
+    }
+    #search-button:hover { color: var(--terra); }
+
+    /* BLOG CONTENT */
+    .blog-content { padding: 4.5rem 5rem 6rem; }
+
+    /* Injected post grid */
+    .blog-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(320px,1fr));
+      gap: 2.25rem;
+      margin-bottom: 4rem;
+    }
+    .blog-container .blog-card,
+    .blog-container article {
+      background: var(--warm);
+      border: 1px solid var(--ink-10);
+      overflow: hidden;
+      transition: border-color .25s, transform .35s var(--ease), box-shadow .35s;
+    }
+    .blog-container .blog-card:hover,
+    .blog-container article:hover {
+      border-color: var(--terra);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 52px rgba(191,78,30,.1);
+    }
+    .blog-container img { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
+    .blog-container h2, .blog-container h3 {
+      font-family: var(--f-serif); font-size: 1.4rem; font-weight: 400;
+      line-height: 1.22; color: var(--ink); margin-bottom: .55rem;
+      padding: 1rem 1.4rem 0;
+    }
+    .blog-container p {
+      font-size: .875rem; line-height: 1.65; color: var(--ink-55);
+      padding: 0 1.4rem 1.4rem;
+    }
+    .blog-container a { color: inherit; }
+    .blog-container .category, .blog-container .tag {
+      font-family: var(--f-display); font-size: .48rem; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--terra); padding: 1rem 1.4rem 0; display: block;
+    }
+    .blog-container .read-link {
+      font-family: var(--f-display); font-size: .52rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--terra); display: inline-flex; align-items: center; gap: .4rem;
+      padding: 0 1.4rem 1.4rem;
+    }
+
+    /* LOADING (blog page uses text span) */
+    #loading .loading-spinner {
+      display: flex; align-items: center; gap: .75rem;
+      font-family: var(--f-display); font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--terra); animation: none;
+      width: auto; height: auto; border: none; border-radius: 0;
+    }
+    #loading .loading-spinner i { animation: aSpin .8s linear infinite; font-size: 1.2rem; }
+
+    /* PAGINATION */
+    .pagination { display:flex; justify-content:center; gap:.5rem; flex-wrap:wrap; }
+    .pagination button, .pagination a {
+      font-family: var(--f-display); font-size: .55rem; font-weight: 400;
+      letter-spacing: .1em; padding: .65rem 1.1rem;
+      background: none; border: 1px solid var(--ink-10);
+      color: var(--ink); cursor: pointer;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .pagination button:hover, .pagination a:hover,
+    .pagination button.active, .pagination a.active {
+      border-color: var(--terra); color: var(--terra);
+    }
+    .pagination button.active, .pagination a.active {
+      background: var(--terra); color: #fff; border-color: var(--terra);
+    }
+
+    /* Footer override */
+    footer .footer-content {
+      align-items: center;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    footer .footer-content p { text-align: right; }
+
+    @media (max-width:900px) {
+      .blog-header  { padding:4.5rem 2rem 3.5rem; }
+      .search-container { padding:1.25rem 2rem; }
+      .blog-content { padding:3.5rem 2rem 5rem; }
+      .blog-container { grid-template-columns:1fr; }
+    }
+  </style>
+
+  <!-- Open Graph / Link Preview (logo appears when sharing link) -->
+  <meta property="og:type"         content="article">
+  <meta property="og:site_name"    content="Côte des voix">
+  <meta property="og:url"          content="https://cotedesvoix.com/blog.html">
+  <meta property="og:title"        content="Blog — Côte des voix">
+  <meta property="og:description"  content="Histoires, podcast, blog et services linguistiques professionnels — 100% Français, 100% Kenyan.">
+  <meta property="og:image"        content="https://cotedesvoix.com/Images/Final cote des voix logo.png">
+  <meta property="og:image:width"  content="800">
+  <meta property="og:image:height" content="800">
+  <meta property="og:locale"       content="fr_FR">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:site"        content="@CotedesVoix">
+  <meta name="twitter:title"       content="Blog — Côte des voix">
+  <meta name="twitter:description" content="Histoires, podcast, blog et services linguistiques — 100% Français, 100% Kenyan.">
+  <meta name="twitter:image"       content="https://cotedesvoix.com/Images/Final cote des voix logo.png">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="main-nav" aria-label="Navigation principale">
+    <div class="nav-brand">
+      <img src="Images/favicon.png" alt="Logo Côte des voix" class="nav-logo">
+      <span class="brand-title">Côte des voix</span>
+    </div>
+    <button class="hamburger" aria-label="Ouvrir le menu" aria-controls="nav-links" aria-expanded="false">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="blog.html" class="active">Blog</a>
+      <a href="shop.html">Boutique</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <main class="blog-main">
+
+    <!-- PAGE HERO -->
+    <div class="blog-header">
+      <div class="blog-header-ghost">Blog</div>
+      <div class="blog-header-inner">
+        <p class="sec-label">Nos Écrits</p>
+        <h1>Notre Blog</h1>
+        <p class="blog-description">Découvrez nos derniers articles sur la technologie, les affaires et le développement personnel.</p>
+      </div>
+    </div>
+
+    <!-- STICKY SEARCH -->
+    <div class="search-container">
+      <div class="search-wrapper">
+        <input type="text" id="search-input" placeholder="Rechercher des articles...">
+        <button id="search-button" title="Rechercher"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="blog-content">
+      <div id="loading" class="loading">
+        <div class="loading-spinner">
+          <i class="fas fa-spinner"></i>
+          <span>Chargement des articles...</span>
+        </div>
+      </div>
+      <div class="blog-container"></div>
+      <div class="pagination"></div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <span class="footer-brand-name">Côte des voix</span>
+      <div class="footer-social">
+        <a href="https://wa.me/254703634966" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://x.com/CotedesVoix" aria-label="Twitter/X"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com/cotedesvoix" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 Côte des voix. Tous droits réservés.</p>
+        <p>Créé par <a href="https://www.brianmutuku.dev" target="_blank" rel="noopener">Brian Mutuku</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="scripts/nav.js"></script>
+  <script src="scripts/blog.js"></script>
+  <script src="scripts/cdv-animations.js"></script>
+</body>
+</html>

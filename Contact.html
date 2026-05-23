@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contactez-Nous — Côte des voix</title>
+  <link rel="icon" type="image/png" href="/Images/favicon.png">
+  <link rel="stylesheet" href="styles/cdv-design.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body { padding-top: var(--nav-h); }
+
+    /* ── SPLIT LAYOUT ──────────────────────────────────── */
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1.65fr;
+      min-height: calc(100vh - var(--nav-h));
+    }
+
+    /* LEFT — visual panel */
+    .image-section {
+      position: relative;
+      background: var(--terra-lt);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .image-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 70% at 50% 50%, var(--terra) 0%, var(--terra-lt) 65%);
+      opacity: .6;
+    }
+    .image-section-ghost {
+      position: absolute; bottom: -3rem; right: -2rem;
+      font-family: var(--f-serif); font-size: 16rem; font-weight: 200; font-style: italic;
+      color: rgba(191,78,30,.09); line-height: 1;
+      pointer-events: none; user-select: none; white-space: nowrap;
+    }
+    .image-section img {
+      width: 148px; height: 148px;
+      border-radius: 50%; background: #fff;
+      object-fit: contain;
+      box-shadow: 0 20px 64px rgba(191,78,30,.3);
+      position: relative; z-index: 2;
+      animation: aFloat 5.5s ease-in-out infinite;
+    }
+    /* Decorative info pills */
+    .img-pill {
+      position: absolute; z-index: 3;
+      display: flex; align-items: center; gap: .5rem;
+      background: #fff; border-radius: 100px;
+      padding: .5rem 1rem .5rem .6rem;
+      box-shadow: var(--shadow-md);
+      font-family: var(--f-display); font-size: .5rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+    }
+    .img-pill i { font-size: 1rem; }
+    .img-pill--email  { top: 22%; left: 8%;  animation: aFloat 4.5s ease-in-out infinite .3s; }
+    .img-pill--phone  { bottom: 24%; left: 6%; animation: aFloat 5s ease-in-out infinite .7s; }
+    .img-pill--email  i { color: var(--terra); }
+    .img-pill--phone  i { color: var(--sage); }
+
+    /* RIGHT — contact content */
+    .contact-content {
+      padding: 5rem 5rem 5rem 4.5rem;
+      background: var(--warm);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+
+    .contact-content h1 {
+      font-family: var(--f-serif);
+      font-size: clamp(2.4rem, 4vw, 3.8rem);
+      font-weight: 200; line-height: 1.08; color: var(--ink);
+      margin-bottom: .75rem;
+      position: relative; padding-left: 1.4rem;
+      opacity: 0; animation: aFadeUp .9s var(--ease) forwards .2s;
+    }
+    .contact-content h1::before {
+      content: ''; position: absolute; left: 0; top: .12em;
+      width: 3px; height: .82em; background: var(--terra);
+    }
+
+    .contact-content > p {
+      font-family: var(--f-serif); font-size: 1.1rem;
+      font-style: italic; font-weight: 200;
+      color: var(--ink-55); margin-bottom: 2.5rem; line-height: 1.65;
+      opacity: 0; animation: aFadeUp .9s var(--ease) forwards .32s;
+    }
+
+    /* Info list */
+    .contact-info {
+      margin-bottom: 2.75rem;
+      opacity: 0; animation: aFadeUp .9s var(--ease) forwards .44s;
+    }
+    .contact-info li {
+      display: flex; align-items: baseline; gap: 1rem;
+      padding: .9rem 0;
+      border-bottom: 1px solid var(--ink-10);
+      font-size: .92rem; color: var(--ink-80);
+      line-height: 1.5;
+    }
+    .contact-info li:first-child { border-top: 1px solid var(--ink-10); }
+    .contact-info strong {
+      font-family: var(--f-display); font-size: .5rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--terra); min-width: 5.5rem; flex-shrink: 0;
+    }
+
+    /* Method buttons */
+    .contact-methods {
+      display: grid; grid-template-columns: 1fr 1fr; gap: .75rem;
+      opacity: 0; animation: aFadeUp .9s var(--ease) forwards .56s;
+    }
+    .contact-method-btn {
+      display: flex; align-items: center; gap: .6rem;
+      font-family: var(--f-display); font-size: .56rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      text-decoration: none; padding: .85rem 1.1rem;
+      color: var(--ink); border: 1.5px solid var(--ink-10);
+      transition: border-color .22s, color .22s, background .22s, transform .25s var(--ease);
+    }
+    .contact-method-btn:hover { border-color: var(--terra); color: var(--terra); transform: translateY(-3px); }
+    .contact-method-btn i { font-size: 1.05rem; }
+    .contact-method-btn[href*="wa.me"] i   { color: #25D366; }
+    .contact-method-btn[href*="x.com"] i   { color: #1DA1F2; }
+    .contact-method-btn[href*="instagram"] i { color: #E1306C; }
+    .contact-method-btn[href^="tel"] i     { color: var(--terra); }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    footer .footer-content { flex-direction: row; justify-content: space-between; align-items: center; }
+    /* hide duplicate h3 */
+    footer .contact-info h3 { display: none; }
+    footer .contact-info { margin: 0; border: none; }
+    footer .contact-info li { display: none; } /* hide list items in footer */
+
+    @media (max-width: 900px) {
+      .container { grid-template-columns: 1fr; }
+      .image-section { min-height: 260px; padding: 3rem; }
+      .image-section-ghost { font-size: 10rem; }
+      .contact-content { padding: 3.5rem 2rem; }
+    }
+    @media (max-width: 520px) {
+      .contact-methods { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <!-- Open Graph / Link Preview (logo appears when sharing link) -->
+  <meta property="og:type"         content="website">
+  <meta property="og:site_name"    content="Côte des voix">
+  <meta property="og:url"          content="https://cotedesvoix.com/contact.html">
+  <meta property="og:title"        content="Contactez-Nous — Côte des voix">
+  <meta property="og:description"  content="Histoires, podcast, blog et services linguistiques professionnels — 100% Français, 100% Kenyan.">
+  <meta property="og:image"        content="https://cotedesvoix.com/Images/Final cote des voix logo.png">
+  <meta property="og:image:width"  content="800">
+  <meta property="og:image:height" content="800">
+  <meta property="og:locale"       content="fr_FR">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:site"        content="@CotedesVoix">
+  <meta name="twitter:title"       content="Contactez-Nous — Côte des voix">
+  <meta name="twitter:description" content="Histoires, podcast, blog et services linguistiques — 100% Français, 100% Kenyan.">
+  <meta name="twitter:image"       content="https://cotedesvoix.com/Images/Final cote des voix logo.png">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="main-nav" aria-label="Navigation principale">
+    <div class="nav-brand">
+      <img src="Images/favicon.png" alt="Logo Côte des voix" class="nav-logo" style="height:32px;vertical-align:middle;">
+      <span class="brand-title">Côte des voix</span>
+    </div>
+    <button class="hamburger" aria-label="Ouvrir le menu" aria-controls="nav-links" aria-expanded="false">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="blog.html">Blog</a>
+      <a href="shop.html">Boutique</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+  </nav>
+
+  <!-- SPLIT LAYOUT -->
+  <div class="container">
+
+    <!-- LEFT: visual -->
+    <div class="image-section">
+      <div class="image-section-ghost">Voix</div>
+      <img src="Images/favicon.png" alt="Côte des voix">
+      <div class="img-pill img-pill--email">
+        <i class="far fa-envelope"></i> Email
+      </div>
+      <div class="img-pill img-pill--phone">
+        <i class="fas fa-phone"></i> Nairobi
+      </div>
+    </div>
+
+    <!-- RIGHT: content -->
+    <div class="contact-content">
+      <h1>Contactez-<em style="font-style:italic;color:var(--terra)">Nous</em></h1>
+      <p>Si vous avez des questions, n'hésitez pas à nous contacter !</p>
+
+      <ul class="contact-info">
+        <li><strong>Email :</strong> cotedesvoix@gmail.com</li>
+        <li><strong>Téléphone :</strong> +254 703 634 966</li>
+        <li><strong>Adresse :</strong> Nairobi, Kenya</li>
+      </ul>
+
+      <div class="contact-methods">
+        <a href="tel:+254703634966" class="contact-method-btn">
+          <i class="fas fa-phone"></i> Par Téléphone
+        </a>
+        <a href="https://wa.me/254703634966" class="contact-method-btn">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+        <a href="https://x.com/CotedesVoix?t=e0aa2DSUMkK55eKpms0f9g&s=09" class="contact-method-btn">
+          <i class="fab fa-twitter"></i> Twitter/X
+        </a>
+        <a href="https://www.instagram.com/cotedesvoix?igsh=ZTc2bm1nbWFsOTAw" class="contact-method-btn">
+          <i class="fab fa-instagram"></i> Instagram
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <span class="footer-brand-name">Côte des voix</span>
+      <div>
+        <div class="footer-social">
+          <a href="tel:+254703634966" aria-label="Téléphone"><i class="fas fa-phone"></i></a>
+          <a href="https://wa.me/254703634966" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://x.com/CotedesVoix" aria-label="Twitter/X"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/cotedesvoix" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2024 Côte des voix. Tous droits réservés.</p>
+          <p>Créé par <a href="https://brianmutuku.dev" target="_blank" rel="noopener">Brian Mutuku</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="scripts/nav.js"></script>
+  <script src="scripts/cdv-animations.js"></script>
+</body>
+</html>

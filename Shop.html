@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/Images/favicon.png">
+  <title>Boutique — Côte des voix</title>
+  <link rel="stylesheet" href="styles/cdv-design.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <style>
+    body { padding-top: var(--nav-h); }
+
+    /* SHOP HERO */
+    .shop-hero {
+      background: var(--ink);
+      padding: 5.5rem 5rem 4rem;
+      position: relative; overflow: hidden;
+      display: flex; align-items: flex-end; justify-content: space-between;
+      min-height: 280px;
+    }
+    .shop-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 50% 80% at 85% 50%, rgba(191,78,30,.3) 0%, transparent 70%);
+    }
+    .shop-hero-ghost {
+      position: absolute; right: -1rem; bottom: -3.5rem;
+      font-family: var(--f-serif); font-size: 18rem; font-weight: 200; font-style: italic;
+      color: rgba(191,78,30,.06); line-height: 1;
+      pointer-events: none; user-select: none;
+    }
+    .shop-hero-left { position: relative; z-index: 2; }
+    .shop-hero h1 {
+      font-family: var(--f-serif);
+      font-size: clamp(3rem,5.5vw,5.8rem); font-weight: 200; line-height: 1.04; color: #fff;
+      opacity: 0; animation: aFadeUp .9s var(--ease) forwards .15s;
+    }
+    /* Hide the old .shop-header title — we use shop-hero now */
+    .shop-header .title { display: none; }
+
+    /* Cart icon in hero */
+    .shop-hero-right { position: relative; z-index: 2; opacity:0; animation:aFadeIn .9s ease forwards .4s; }
+    .icon-cart {
+      position: relative; cursor: pointer;
+      color: var(--gold-lt);
+      transition: color .22s, transform .25s var(--ease-back);
+    }
+    .icon-cart:hover { color: var(--gold); transform: scale(1.08); }
+    .icon-cart svg { width: 36px; height: 36px; }
+    .cart-count {
+      position: absolute; top: -7px; right: -7px;
+      background: var(--terra); color: #fff;
+      width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display); font-size: .5rem; font-weight: 700;
+    }
+
+    /* Keep original .shop-header hidden (still in DOM for JS) */
+    .shop-header { display: none !important; }
+
+    /* PRODUCT GRID */
+    .container { padding: 4rem 5rem 6rem; }
+
+    .listProduct {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
+      gap: 2rem;
+    }
+    .listProduct .item,
+    .listProduct .product-card {
+      background: var(--warm); border: 1px solid var(--ink-10);
+      overflow: hidden; cursor: pointer;
+      transition: border-color .25s, transform .35s var(--ease), box-shadow .35s;
+    }
+    .listProduct .item:hover,
+    .listProduct .product-card:hover {
+      border-color: var(--terra); transform: translateY(-6px);
+      box-shadow: 0 20px 52px rgba(191,78,30,.1);
+    }
+    .listProduct img {
+      width: 100%; aspect-ratio: 1; object-fit: cover; display: block;
+      transition: transform .5s var(--ease);
+    }
+    .listProduct .item:hover img { transform: scale(1.04); }
+    .listProduct .item-body, .listProduct .product-body { padding: 1.25rem 1.25rem 1.5rem; }
+    .listProduct h3, .listProduct .product-name {
+      font-family: var(--f-serif); font-size: 1.2rem; font-weight: 400;
+      color: var(--ink); margin-bottom: .3rem; text-transform: capitalize;
+    }
+    .listProduct .price, .listProduct .product-price {
+      font-family: var(--f-display); font-size: .72rem; font-weight: 700;
+      color: var(--terra); letter-spacing: .04em; margin-bottom: 1rem;
+    }
+    .listProduct button, .listProduct .add-to-cart {
+      font-family: var(--f-display); font-size: .55rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: .7rem 1.2rem; background: var(--terra); color: #fff;
+      border: none; cursor: pointer; width: 100%;
+      transition: background .2s, transform .15s;
+    }
+    .listProduct button:hover { background: var(--terra-dk); transform: translateY(-1px); }
+
+    /* CART PANEL */
+    .cartTab {
+      position: fixed; top: 0; right: -440px;
+      width: 440px; height: 100vh;
+      background: var(--warm); border-left: 1px solid var(--ink-10); z-index: 2000;
+      display: flex; flex-direction: column;
+      box-shadow: -8px 0 48px rgba(22,15,7,.14);
+      transition: right .42s var(--ease);
+    }
+    .cartTab.active { right: 0; }
+    .cartTab h1 {
+      font-family: var(--f-serif); font-size: 2.2rem; font-weight: 200;
+      color: var(--ink); padding: 1.75rem 2rem 1.5rem;
+      border-bottom: 1px solid var(--ink-10);
+    }
+    .listCart { flex: 1; overflow-y: auto; padding: 1.5rem 2rem; }
+    .listCart .item {
+      display: flex; gap: 1rem; align-items: center;
+      padding: 1rem 0; border-bottom: 1px solid var(--ink-10);
+      border-radius: 0;
+    }
+    .listCart img { width: 62px; height: 62px; object-fit: cover; flex-shrink: 0; }
+    .listCart .name {
+      font-family: var(--f-serif); font-size: 1rem; font-weight: 400; color: var(--ink); flex: 1;
+    }
+    .listCart .price {
+      font-family: var(--f-display); font-size: .68rem; font-weight: 700; color: var(--terra);
+    }
+    .listCart .quantity { display: flex; align-items: center; gap: .45rem; }
+    .listCart .quantity button {
+      width: 28px; height: 28px;
+      background: var(--cream-dk); border: 1px solid var(--ink-10);
+      color: var(--ink); font-size: .9rem; cursor: pointer;
+      transition: background .15s;
+    }
+    .listCart .quantity button:hover { background: var(--terra); color: #fff; border-color: var(--terra); }
+
+    .cartTab .btn {
+      padding: 1.5rem 2rem; border-top: 1px solid var(--ink-10);
+      display: flex; gap: .75rem;
+    }
+    .cartTab .btn button {
+      flex: 1; font-family: var(--f-display); font-size: .58rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: .9rem; cursor: pointer; border: none;
+      transition: background .2s, transform .15s;
+    }
+    .cartTab .btn .close {
+      background: var(--cream-dk); color: var(--ink); border: 1.5px solid var(--ink-10) !important;
+    }
+    .cartTab .btn .close:hover { border-color: var(--terra) !important; color: var(--terra); }
+    .cartTab .btn .checkOut { background: var(--terra); color: #fff; }
+    .cartTab .btn .checkOut:hover { background: var(--terra-dk); transform: translateY(-1px); }
+
+    /* Cart overlay */
+    .cart-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(22,15,7,.45); z-index: 1999; cursor: pointer;
+    }
+    .cart-overlay.active { display: block; }
+
+    /* FOOTER */
+    footer .footer-content {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    @media (max-width:900px) {
+      .shop-hero { padding:4.5rem 2rem 3rem; flex-direction:column; gap:1.5rem; align-items:flex-start; }
+      .container { padding:3rem 2rem 5rem; }
+      .cartTab { width:100%; right:-100%; }
+      .listProduct { grid-template-columns:1fr 1fr; }
+    }
+    @media (max-width:480px) {
+      .listProduct { grid-template-columns:1fr; }
+    }
+  </style>
+
+  <!-- Open Graph / Link Preview (logo appears when sharing link) -->
+  <meta property="og:type"         content="website">
+  <meta property="og:site_name"    content="Côte des voix">
+  <meta property="og:url"          content="https://cotedesvoix.com/shop.html">
+  <meta property="og:title"        content="Boutique — Côte des voix">
+  <meta property="og:description"  content="Histoires, podcast, blog et services linguistiques professionnels — 100% Français, 100% Kenyan.">
+  <meta property="og:image"        content="https://cotedesvoix.com/Images/Final cote des voix logo.png">
+  <meta property="og:image:width"  content="800">
+  <meta property="og:image:height" content="800">
+  <meta property="og:locale"       content="fr_FR">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:site"        content="@CotedesVoix">
+  <meta name="twitter:title"       content="Boutique — Côte des voix">
+  <meta name="twitter:description" content="Histoires, podcast, blog et services linguistiques — 100% Français, 100% Kenyan.">
+  <meta name="twitter:image"       content="https://cotedesvoix.com/Images/Final cote des voix logo.png">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="main-nav" aria-label="Navigation principale">
+    <div class="nav-brand">
+      <img src="Images/favicon.png" alt="Logo Côte des voix" class="nav-logo">
+      <span class="brand-title">Côte des voix</span>
+    </div>
+    <button class="hamburger" aria-label="Ouvrir le menu" aria-controls="nav-links" aria-expanded="false">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="blog.html">Blog</a>
+      <a href="shop.html" class="active">Boutique</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <!-- SHOP HERO -->
+  <div class="shop-hero">
+    <div class="shop-hero-ghost">Shop</div>
+    <div class="shop-hero-left">
+      <p class="sec-label">La Boutique</p>
+      <h1>Nos Produits</h1>
+    </div>
+    <div class="shop-hero-right">
+      <div class="icon-cart" aria-label="Voir le panier" tabindex="0">
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1"/>
+        </svg>
+        <div class="cart-count">0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORIGINAL shop-header kept for JS compatibility (hidden via CSS) -->
+  <div class="container">
+    <div class="shop-header">
+      <div class="title">NOS PRODUITS</div>
+      <div class="icon-cart" aria-label="Voir le panier" tabindex="0">
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1"/>
+        </svg>
+        <div class="cart-count">0</div>
+      </div>
+    </div>
+    <div class="listProduct"></div>
+  </div>
+
+  <!-- Cart overlay -->
+  <div class="cart-overlay"></div>
+
+  <!-- CART PANEL -->
+  <div class="cartTab" aria-label="Panier">
+    <h1>Shopping Cart</h1>
+    <div class="listCart"></div>
+    <div class="btn">
+      <button class="close">FERMER</button>
+      <button class="checkOut">ACHETER</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <span class="footer-brand-name">Côte des voix</span>
+      <div>
+        <div class="footer-social">
+          <a href="tel:+254703634966" aria-label="Téléphone"><i class="fas fa-phone"></i></a>
+          <a href="https://wa.me/254703634966" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://x.com/CotedesVoix" aria-label="Twitter/X"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/cotedesvoix" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2025 Côte des voix. Tous droits réservés.</p>
+          <p>Créé par <a href="https://brianmutuku.dev" target="_blank" rel="noopener">Brian Mutuku</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="scripts/nav.js"></script>
+  <script src="scripts/shop.js"></script>
+  <script src="scripts/cdv-animations.js"></script>
+  <script>
+    // Cart overlay toggle
+    document.querySelector('.cart-overlay')?.addEventListener('click', () => {
+      document.querySelector('.cartTab')?.classList.remove('active');
+      document.querySelector('.cart-overlay')?.classList.remove('active');
+    });
+    // Hook into shop.js cart open (add .active class alongside existing logic)
+    const cartObserver = new MutationObserver(() => {
+      const tab = document.querySelector('.cartTab');
+      if (tab) {
+        const overlay = document.querySelector('.cart-overlay');
+        overlay?.classList.toggle('active', tab.classList.contains('active'));
+      }
+    });
+    const cartTab = document.querySelector('.cartTab');
+    if (cartTab) cartObserver.observe(cartTab, { attributes:true, attributeFilter:['class'] });
+  </script>
+</body>
+</html>

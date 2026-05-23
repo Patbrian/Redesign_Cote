@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/Images/favicon.png" type="image/png">
+  <title>Professional Language Services | Côte des voix</title>
+  <link rel="stylesheet" href="styles/cdv-design.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body { padding-top: var(--nav-h); }
+
+    /* ── HERO ───────────────────────────────────────── */
+    .interpretation-hero {
+      background: var(--ink);
+      padding: 6rem 5rem 5rem;
+      position: relative; overflow: hidden;
+      min-height: 340px;
+      display: flex; align-items: flex-end;
+    }
+    .interpretation-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 55% 80% at 85% 50%, rgba(191,78,30,.32) 0%, transparent 68%);
+    }
+    .interp-hero-ghost {
+      position: absolute; right: -2rem; bottom: -4rem;
+      font-family: var(--f-serif); font-size: 20rem; font-weight: 200; font-style: italic;
+      color: rgba(191,78,30,.06); line-height: 1;
+      pointer-events: none; user-select: none; white-space: nowrap;
+    }
+    .interp-hero-inner { position: relative; z-index: 2; max-width: 720px; }
+    .interpretation-hero h1 {
+      font-family: var(--f-serif);
+      font-size: clamp(2.8rem, 5vw, 5.5rem);
+      font-weight: 200; line-height: 1.04; color: #fff;
+      margin-bottom: 1.25rem;
+      opacity: 0; animation: aFadeUp .9s var(--ease) forwards .2s;
+    }
+    .interpretation-hero h1 i { color: var(--gold); margin-right: .4rem; font-size: .78em; }
+    .interpretation-tagline {
+      font-family: var(--f-serif); font-size: 1.12rem; font-style: italic; font-weight: 200;
+      color: rgba(242,224,192,.65); line-height: 1.7; max-width: 640px;
+      opacity: 0; animation: aFadeUp .9s var(--ease) forwards .36s;
+    }
+
+    /* ── INTRO BANNER ───────────────────────────────── */
+    .interp-intro {
+      background: var(--terra);
+      padding: 2.5rem 5rem;
+    }
+    .interp-intro-text {
+      font-family: var(--f-serif); font-size: 1.28rem; font-weight: 200; font-style: italic;
+      color: rgba(255,255,255,.9); line-height: 1.68; max-width: 720px;
+    }
+
+    /* ── STICKY SERVICE NAV ─────────────────────────── */
+    .interp-services-nav {
+      position: sticky; top: var(--nav-h); z-index: 50;
+      background: rgba(249,245,239,.97); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--ink-10);
+      padding: 1rem 5rem;
+      display: flex; gap: .5rem; flex-wrap: wrap;
+    }
+    .interp-services-nav a {
+      font-family: var(--f-display); font-size: .5rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      text-decoration: none; padding: .45rem .85rem;
+      color: var(--ink-55); border: 1px solid var(--ink-10);
+      transition: color .2s, border-color .2s, background .2s;
+    }
+    .interp-services-nav a:hover { border-color: var(--terra); color: var(--terra); }
+    .interp-services-nav a.is-active { background: var(--terra); color: #fff; border-color: var(--terra); }
+
+    /* ── SERVICE BLOCKS ─────────────────────────────── */
+    .interp-block {
+      padding: 5rem 5rem;
+      border-bottom: 1px solid var(--ink-10);
+      position: relative;
+    }
+    .interp-block:nth-child(even) { background: var(--warm); }
+    .interp-block:nth-child(odd)  { background: var(--cream); }
+
+    .interp-block-header {
+      display: flex; align-items: center;
+      gap: 1.25rem; margin-bottom: 2rem;
+    }
+    .interp-service-num {
+      font-family: var(--f-display); font-size: .5rem; font-weight: 700;
+      letter-spacing: .2em; color: var(--terra);
+      min-width: 2rem; flex-shrink: 0;
+    }
+    .interp-block-icon {
+      width: 46px; height: 46px;
+      background: var(--terra-lt);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      transition: background .22s;
+    }
+    .interp-block:hover .interp-block-icon { background: var(--terra); }
+    .interp-block-icon i { color: var(--terra); font-size: 1.15rem; transition: color .22s; }
+    .interp-block:hover .interp-block-icon i { color: #fff; }
+
+    .interp-block-header h2 {
+      font-family: var(--f-serif);
+      font-size: clamp(1.9rem, 3.2vw, 3rem);
+      font-weight: 200; color: var(--ink);
+    }
+
+    .interp-catchline {
+      font-family: var(--f-serif); font-size: 1.05rem; font-style: italic; font-weight: 200;
+      color: var(--ink-55); line-height: 1.7; max-width: 640px; margin-bottom: 1.5rem;
+    }
+    .interp-client-name {
+      font-family: var(--f-display); font-size: .58rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--terra); margin-bottom: .75rem;
+    }
+    .interp-desc {
+      font-size: .95rem; line-height: 1.72; color: var(--ink-55); max-width: 640px;
+      margin-bottom: 1.25rem;
+    }
+    .interp-desc.interp-catchy {
+      font-family: var(--f-serif); font-size: 1.05rem; font-style: italic; color: var(--ink-55);
+    }
+
+    /* Doc checklist */
+    .interp-doc-list {
+      list-style: none; max-width: 520px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: .45rem .5rem;
+    }
+    .interp-doc-list li {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .88rem; color: var(--ink-80); padding: .35rem 0;
+    }
+    .interp-doc-list li i { color: var(--terra); font-size: .75rem; flex-shrink: 0; }
+
+    /* Client cards */
+    .interp-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem; margin-top: 1.5rem;
+    }
+    .interp-card {
+      background: var(--warm); border: 1px solid var(--ink-10); padding: 1.75rem;
+      transition: border-color .22s, transform .32s var(--ease), box-shadow .32s;
+    }
+    .interp-card:hover { border-color: var(--terra); transform: translateY(-4px); box-shadow: 0 14px 40px rgba(191,78,30,.1); }
+    .interp-card-icon {
+      width: 40px; height: 40px; background: var(--terra-lt);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+      transition: background .22s;
+    }
+    .interp-card:hover .interp-card-icon { background: var(--terra); }
+    .interp-card-icon i { color: var(--terra); font-size: 1rem; transition: color .22s; }
+    .interp-card:hover .interp-card-icon i { color: #fff; }
+    .interp-card h3 { font-family: var(--f-serif); font-size: 1.2rem; font-weight: 400; color: var(--ink); margin-bottom: .5rem; }
+    .interp-card p  { font-size: .86rem; line-height: 1.65; color: var(--ink-55); }
+
+    /* ── CONTACT CTA ────────────────────────────────── */
+    .interp-cta {
+      background: var(--ink);
+      padding: 7rem 5rem;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .interp-cta::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 50% 50%, rgba(191,78,30,.22) 0%, transparent 72%);
+    }
+    .interp-cta > * { position: relative; z-index: 2; }
+    .interp-cta-title {
+      font-family: var(--f-serif);
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      font-weight: 200; color: #fff; margin-bottom: 1rem;
+    }
+    .interp-cta-title em { font-style: italic; color: var(--gold); }
+    .interp-cta-text {
+      font-family: var(--f-serif); font-size: 1.1rem; font-style: italic; font-weight: 200;
+      color: rgba(242,224,192,.62); max-width: 520px; margin: 0 auto 2.75rem; line-height: 1.68;
+    }
+    .interp-contact-details {
+      display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2.75rem;
+    }
+    .interp-contact-item {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .92rem; color: rgba(242,224,192,.7); text-decoration: none;
+      transition: color .2s;
+    }
+    .interp-contact-item:hover { color: var(--gold); }
+    .interp-contact-item i { color: var(--terra); }
+    .interp-contact-address { cursor: default; }
+    .interp-cta-buttons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    .interp-cta-btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--f-display); font-size: .56rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      text-decoration: none; padding: .9rem 2rem;
+      transition: background .2s, color .2s, transform .25s var(--ease);
+    }
+    .interp-cta-whatsapp { background: #25D366; color: #fff; }
+    .interp-cta-whatsapp:hover { background: #1ea855; transform: translateY(-3px); }
+    .interp-cta-primary { background: var(--terra); color: #fff; border: 1.5px solid var(--terra); }
+    .interp-cta-primary:hover { background: var(--terra-dk); transform: translateY(-3px); }
+
+    /* FOOTER */
+    footer .footer-content { flex-direction: row; justify-content: space-between; align-items: center; }
+
+    @media (max-width: 900px) {
+      .interpretation-hero, .interp-intro,
+      .interp-block, .interp-cta { padding-left: 2rem; padding-right: 2rem; }
+      .interp-services-nav { padding-left: 2rem; padding-right: 2rem; }
+      .interp-doc-list { grid-template-columns: 1fr; }
+      .interp-cards { grid-template-columns: 1fr; }
+      .interp-contact-details { flex-direction: column; align-items: center; gap: 1rem; }
+    }
+  </style>
+
+  <!-- Open Graph / Link Preview (logo appears when sharing link) -->
+  <meta property="og:type"         content="website">
+  <meta property="og:site_name"    content="Côte des voix">
+  <meta property="og:url"          content="https://cotedesvoix.com/interpretation.html">
+  <meta property="og:title"        content="Services Linguistiques — Côte des voix">
+  <meta property="og:description"  content="Histoires, podcast, blog et services linguistiques professionnels — 100% Français, 100% Kenyan.">
+  <meta property="og:image"        content="https://cotedesvoix.com/Images/Final cote des voix logo.png">
+  <meta property="og:image:width"  content="800">
+  <meta property="og:image:height" content="800">
+  <meta property="og:locale"       content="fr_FR">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:site"        content="@CotedesVoix">
+  <meta name="twitter:title"       content="Services Linguistiques — Côte des voix">
+  <meta name="twitter:description" content="Histoires, podcast, blog et services linguistiques — 100% Français, 100% Kenyan.">
+  <meta name="twitter:image"       content="https://cotedesvoix.com/Images/Final cote des voix logo.png">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="main-nav" aria-label="Main navigation">
+    <div class="nav-brand">
+      <img src="Images/favicon.png" alt="Côte des voix logo" class="nav-logo">
+      <span class="brand-title">Côte des voix</span>
+    </div>
+    <button class="hamburger" aria-label="Open menu" aria-controls="nav-links" aria-expanded="false">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="blog.html">Blog</a>
+      <a href="shop.html">Boutique</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <main class="interpretation-page">
+
+    <!-- HERO -->
+    <section class="interpretation-hero">
+      <div class="interp-hero-ghost">Langue</div>
+      <div class="interp-hero-inner">
+        <p class="sec-label">Language Services</p>
+        <h1><i class="fas fa-language"></i> Professional Language Services</h1>
+        <p class="interpretation-tagline">Translation, interpretation, dubbing, voice overs, transcription, emceeing, rapporteuring, editing &amp; proofreading and subtitling — we bring your message to life in French and English.</p>
+      </div>
+    </section>
+
+    <!-- INTRO BANNER -->
+    <section class="interp-intro">
+      <p class="interp-intro-text">From documents to meetings, from screen to script — we help businesses and organisations reach French-speaking audiences with accuracy and impact.</p>
+    </section>
+
+    <!-- STICKY SERVICE NAV -->
+    <nav class="interp-services-nav" aria-label="Services">
+      <a href="#service-1">Translation</a>
+      <a href="#service-2">Interpretation</a>
+      <a href="#service-3">Dubbing</a>
+      <a href="#service-4">Voice Overs</a>
+      <a href="#service-5">Transcription</a>
+      <a href="#service-6">Emceeing</a>
+      <a href="#service-7">Rapporteuring</a>
+      <a href="#service-8">Editing</a>
+      <a href="#service-9">Subtitling</a>
+    </nav>
+
+    <!-- 1. TRANSLATION -->
+    <section class="interp-block interp-service" id="service-1" data-reveal>
+      <div class="interp-block-header">
+        <span class="interp-service-num">01</span>
+        <div class="interp-block-icon"><i class="fas fa-file-alt"></i></div>
+        <h2>Translation</h2>
+      </div>
+      <p class="interp-catchline">We translate documents and content (English↔French) for French-speaking markets. Here are some of the notable companies we've worked with.</p>
+      <p class="interp-client-name">Pesaflow Limited</p>
+      <p class="interp-desc">For Pesaflow Limited we translate a wide range of materials from and into French and English, including:</p>
+      <ul class="interp-doc-list">
+        <li><i class="fas fa-check"></i> Memoranda of Understanding</li>
+        <li><i class="fas fa-check"></i> Company Profiles &amp; Decks</li>
+        <li><i class="fas fa-check"></i> Business Proposals</li>
+        <li><i class="fas fa-check"></i> Websites</li>
+        <li><i class="fas fa-check"></i> User Manuals</li>
+        <li><i class="fas fa-check"></i> Applications</li>
+        <li><i class="fas fa-check"></i> Terms of Reference (ToR)</li>
+        <li><i class="fas fa-check"></i> Other documentation in French or English</li>
+      </ul>
+    </section>
+
+    <!-- 2. INTERPRETATION -->
+    <section class="interp-block interp-service" id="service-2" data-reveal>
+      <div class="interp-block-header">
+        <span class="interp-service-num">02</span>
+        <div class="interp-block-icon"><i class="fas fa-microphone-alt"></i></div>
+        <h2>Interpretation</h2>
+      </div>
+      <p class="interp-catchline">We provide interpretation (English↔French) for <strong>webinars</strong>, <strong>conferences</strong>, <strong>Zoom meetings</strong> and <strong>in-person</strong> events. Some of the standout organisations we've worked with:</p>
+      <div class="interp-cards">
+        <div class="interp-card">
+          <div class="interp-card-icon"><i class="fas fa-globe"></i></div>
+          <h3>Light For The World</h3>
+          <p>Interpretation for online and in-person meetings (English↔French).</p>
+        </div>
+        <div class="interp-card">
+          <div class="interp-card-icon"><i class="fas fa-satellite-dish"></i></div>
+          <h3>African Telecommunications Union (ATU)</h3>
+          <p>Interpretation for online and in-person meetings (English↔French).</p>
+        </div>
+        <div class="interp-card">
+          <div class="interp-card-icon"><i class="fas fa-users"></i></div>
+          <h3>FEMNET</h3>
+          <p>African Women's Development and Communication Network — interpretation for online and in-person meetings (English↔French).</p>
+        </div>
+        <div class="interp-card">
+          <div class="interp-card-icon"><i class="fas fa-flask"></i></div>
+          <h3>APHRC</h3>
+          <p>African Population and Health Research Centre — interpretation (English↔French).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. DUBBING -->
+    <section class="interp-block interp-service" id="service-3" data-reveal>
+      <div class="interp-block-header">
+        <span class="interp-service-num">03</span>
+        <div class="interp-block-icon"><i class="fas fa-film"></i></div>
+        <h2>Dubbing</h2>
+      </div>
+      <p class="interp-desc interp-catchy">Give your video content a local voice. We dub films, series, adverts and training materials into French or English with native-quality delivery—so your message resonates with every viewer, in every market.</p>
+    </section>
+
+    <!-- 4. VOICE OVERS -->
+    <section class="interp-block interp-service" id="service-4" data-reveal>
+      <div class="interp-block-header">
+        <span class="interp-service-num">04</span>
+        <div class="interp-block-icon"><i class="fas fa-volume-up"></i></div>
+        <h2>Voice Overs</h2>
+      </div>
+      <p class="interp-desc interp-catchy">Clear, professional and engaging. From commercials and e-learning to audiobooks and podcasts—we deliver voice overs in French and English that capture your brand and keep audiences listening.</p>
+    </section>
+
+    <!-- 5. TRANSCRIPTION -->
+    <section class="interp-block interp-service" id="service-5" data-reveal>
+      <div class="interp-block-header">
+        <span class="interp-service-num">05</span>
+        <div class="interp-block-icon"><i class="fas fa-keyboard"></i></div>
+        <h2>Transcription</h2>
+      </div>
+      <p class="interp-desc interp-catchy">Turn speech into text with precision. We transcribe meetings, interviews, webinars and audio in French and English—ready for subtitles, archives or reports. Say it once; we make it readable.</p>
+    </section>
+
+    <!-- 6. EMCEEING -->
+    <section class="interp-block interp-service" id="service-6" data-reveal>
+      <div class="interp-block-header">
+        <span class="interp-service-num">06</span>
+        <div class="interp-block-icon"><i class="fas fa-bullhorn"></i></div>
+        <h2>Emceeing</h2>
+      </div>
+      <p class="interp-desc interp-catchy">Keep your event on track and your audience engaged. We host conferences, webinars and ceremonies in French and English—professional, bilingual emceeing that sets the tone and keeps the programme flowing.</p>
+    </section>
+
+    <!-- 7. RAPPORTEURING -->
+    <section class="interp-block interp-service" id="service-7" data-reveal>
+      <div class="interp-block-header">
+        <span class="interp-service-num">07</span>
+        <div class="interp-block-icon"><i class="fas fa-clipboard-list"></i></div>
+        <h2>Rapporteuring</h2>
+      </div>
+      <p class="interp-desc interp-catchy">Capture every decision and discussion. We produce clear, accurate meeting reports and minutes in French and English—so nothing is lost in translation and everyone leaves with a record they can rely on.</p>
+    </section>
+
+    <!-- 8. EDITING & PROOFREADING -->
+    <section class="interp-block interp-service" id="service-8" data-reveal>
+      <div class="interp-block-header">
+        <span class="interp-service-num">08</span>
+        <div class="interp-block-icon"><i class="fas fa-edit"></i></div>
+        <h2>Editing &amp; Proofreading</h2>
+      </div>
+      <p class="interp-desc interp-catchy">Polish your text until it shines. We edit and proofread documents, reports and content in French and English—fixing grammar, style and clarity so your message is professional and error-free.</p>
+    </section>
+
+    <!-- 9. SUBTITLING -->
+    <section class="interp-block interp-service" id="service-9" data-reveal>
+      <div class="interp-block-header">
+        <span class="interp-service-num">09</span>
+        <div class="interp-block-icon"><i class="fas fa-closed-captioning"></i></div>
+        <h2>Subtitling</h2>
+      </div>
+      <p class="interp-desc interp-catchy">Make your videos accessible to every viewer. We create accurate, well-timed subtitles in French and English for films, training videos, webinars and more—so your content speaks to global audiences.</p>
+    </section>
+
+    <!-- CONTACT CTA -->
+    <section class="interp-cta" data-reveal>
+      <h2 class="interp-cta-title">Contact <em>Us</em></h2>
+      <p class="interp-cta-text">Need translation, interpretation, dubbing, voice over, transcription, emceeing, rapporteuring, editing &amp; proofreading or subtitling? Get in touch.</p>
+      <div class="interp-contact-details">
+        <a href="mailto:cotedesvoix@gmail.com" class="interp-contact-item">
+          <i class="far fa-envelope"></i><span>cotedesvoix@gmail.com</span>
+        </a>
+        <a href="tel:+254703634966" class="interp-contact-item">
+          <i class="fas fa-phone"></i><span>+254 703 634 966</span>
+        </a>
+        <p class="interp-contact-item interp-contact-address">
+          <i class="fas fa-map-marker-alt"></i><span>Nairobi, Kenya</span>
+        </p>
+      </div>
+      <div class="interp-cta-buttons">
+        <a href="https://wa.me/254703634966" class="interp-cta-btn interp-cta-whatsapp" target="_blank" rel="noopener">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+        <a href="contact.html" class="interp-cta-btn interp-cta-primary">Contact page</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <span class="footer-brand-name">Côte des voix</span>
+      <div>
+        <div class="footer-social">
+          <a href="https://wa.me/254703634966" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://x.com/CotedesVoix" aria-label="Twitter/X"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/cotedesvoix" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2025 Côte des voix. All rights reserved.</p>
+          <p>Created by <a href="https://www.brianmutuku.dev" target="_blank" rel="noopener">Brian Mutuku</a>.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="scripts/nav.js"></script>
+  <script src="scripts/cdv-animations.js"></script>
+  <script>
+    // Active service nav highlight on scroll
+    const sections  = document.querySelectorAll('.interp-service[id]');
+    const navLinks  = document.querySelectorAll('.interp-services-nav a');
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('is-active'));
+          const link = document.querySelector(`.interp-services-nav a[href="#${e.target.id}"]`);
+          if (link) link.classList.add('is-active');
+        }
+      });
+    }, { threshold: 0.42 });
+    sections.forEach(s => sectionObserver.observe(s));
+  </script>
+</body>
+</html>

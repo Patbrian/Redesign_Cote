@@ -1,0 +1,249 @@
+/**
+ * components.css — Côte des voix
+ * Styles for dynamically injected blog cards, podcast cards,
+ * blog page search/pagination, and shared error/empty states.
+ * Works with the new design system (cdv-design.css tokens).
+ */
+
+/* ── BLOG CARD (home + blog page) ──────────────────────── */
+.blog-card {
+  background: var(--warm);
+  border: 1px solid var(--ink-10);
+  overflow: hidden;
+  transition: border-color .25s, transform .38s var(--ease), box-shadow .38s;
+}
+.blog-card:hover {
+  border-color: var(--terra);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 52px rgba(191,78,30,.1);
+}
+.blog-card__link {
+  display: block;
+  color: inherit;
+}
+.blog-card__img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+}
+.blog-card__img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .5s var(--ease);
+}
+.blog-card:hover .blog-card__img-wrap img { transform: scale(1.05); }
+.blog-card__img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(22,15,7,.18) 0%, transparent 60%);
+}
+.blog-card__body { padding: 1.4rem 1.5rem 1.5rem; }
+.blog-card__cat {
+  font-family: var(--f-display);
+  font-size: .48rem; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--terra);
+  display: block; margin-bottom: .55rem;
+}
+.blog-card__title {
+  font-family: var(--f-serif);
+  font-size: 1.38rem; font-weight: 400;
+  line-height: 1.22; color: var(--ink);
+  margin-bottom: .55rem;
+}
+.blog-card__excerpt {
+  font-size: .86rem; line-height: 1.65;
+  color: var(--ink-55); margin-bottom: .9rem;
+}
+.blog-card__meta {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding-top: .75rem;
+  border-top: 1px solid var(--ink-10);
+}
+.blog-card__date {
+  display: flex; align-items: center; gap: .4rem;
+  font-family: var(--f-display); font-size: .6rem;
+  font-weight: 400; letter-spacing: .1em;
+  color: var(--ink-55);
+  /* takes up left space, pushes CTA to the far right */
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.blog-card__cta {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-family: var(--f-display); font-size: .5rem;
+  font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--terra);
+  white-space: nowrap;
+  flex-shrink: 0;
+  /* pushed to the far right by flex: 1 on the date */
+  margin-left: auto;
+  padding: .35rem .75rem;
+  border: 1.5px solid var(--terra);
+  transition: background .22s, color .22s, gap .2s, transform .22s var(--ease);
+}
+.blog-card:hover .blog-card__cta {
+  background: var(--terra);
+  color: #fff;
+  gap: .55rem;
+  transform: translateX(2px);
+}
+
+/* ── PODCAST CARD (home) ───────────────────────────────── */
+.podcast-card {
+  border: 1px solid rgba(242,224,192,.1);
+  background: rgba(255,255,255,.04);
+  overflow: hidden;
+  transition: background .25s, border-color .25s, transform .38s var(--ease);
+}
+.podcast-card:hover {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(200,137,58,.35);
+  transform: translateY(-4px);
+}
+.podcast-card__img-wrap {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+.podcast-card__img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform .5s var(--ease);
+}
+.podcast-card:hover .podcast-card__img-wrap img { transform: scale(1.05); }
+.podcast-card__play-btn {
+  position: absolute;
+  bottom: .85rem; right: .85rem;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--ink);
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transform: scale(.85);
+  transition: opacity .25s, transform .25s var(--ease-back), background .2s;
+}
+.podcast-card:hover .podcast-card__play-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+.podcast-card__play-btn:hover { background: var(--gold-lt); }
+
+.podcast-card__body { padding: 1.25rem; }
+.podcast-card__title {
+  font-family: var(--f-serif);
+  font-size: 1.18rem; font-weight: 400;
+  color: #fff; margin-bottom: .5rem; line-height: 1.3;
+}
+.podcast-card__meta {
+  display: flex; align-items: center; gap: 1rem;
+  font-family: var(--f-display); font-size: .48rem;
+  font-weight: 400; letter-spacing: .1em;
+  color: rgba(242,224,192,.45);
+  margin-bottom: 1rem;
+}
+.podcast-card__meta span {
+  display: flex; align-items: center; gap: .35rem;
+}
+.podcast-card__player { margin-bottom: 1rem; }
+.podcast-card__cta {
+  display: inline-flex; align-items: center; gap: .45rem;
+  font-family: var(--f-display); font-size: .52rem;
+  font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--gold);
+  transition: color .2s, gap .2s;
+}
+.podcast-card__cta:hover { color: var(--gold-lt); gap: .65rem; }
+
+/* Podcast show embed fallback */
+.podcast-show-embed {
+  grid-column: 1 / -1;
+  padding: 1rem 0;
+}
+
+/* ── SHARED ERROR / EMPTY ───────────────────────────────── */
+.cdv-fetch-error,
+.cdv-empty {
+  grid-column: 1 / -1;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1rem;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: var(--ink-55);
+}
+.cdv-sec--dark .cdv-fetch-error,
+.cdv-sec--dark .cdv-empty { color: rgba(242,224,192,.35); }
+
+.cdv-fetch-error p,
+.cdv-empty p {
+  font-family: var(--f-display);
+  font-size: .6rem; font-weight: 400;
+  letter-spacing: .1em; text-transform: uppercase;
+}
+.cdv-fetch-error button,
+.cdv-empty button {
+  font-family: var(--f-display); font-size: .55rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  padding: .6rem 1.4rem;
+  background: none; border: 1.5px solid var(--terra);
+  color: var(--terra); cursor: pointer;
+  transition: background .2s, color .2s;
+  margin-top: .25rem;
+}
+.cdv-fetch-error button:hover { background: var(--terra); color: #fff; }
+
+/* ── BLOG PAGE SPECIFIC ─────────────────────────────────── */
+/* Loading spinner text variant (blog.js uses <span> inside spinner) */
+#loading .loading-spinner {
+  width: auto; height: auto;
+  border: none; border-radius: 0;
+  animation: none;
+  display: flex; align-items: center; gap: .85rem;
+  font-family: var(--f-display); font-size: .58rem;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--terra);
+}
+#loading .loading-spinner i { animation: aSpin .8s linear infinite; font-size: 1.2rem; }
+
+/* Pagination controls */
+.pagination-controls {
+  display: flex; align-items: center; justify-content: center;
+  gap: .45rem; flex-wrap: wrap;
+  padding-top: 1rem;
+}
+.pagination-btn {
+  font-family: var(--f-display); font-size: .54rem;
+  font-weight: 400; letter-spacing: .1em;
+  padding: .6rem 1rem;
+  background: none; border: 1px solid var(--ink-10);
+  color: var(--ink-55); cursor: pointer;
+  display: inline-flex; align-items: center; gap: .3rem;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.pagination-btn:hover { border-color: var(--terra); color: var(--terra); }
+.pagination-btn.active,
+.pagination-btn[aria-current="page"] {
+  background: var(--terra); color: #fff;
+  border-color: var(--terra);
+}
+.pagination-btn--prev,
+.pagination-btn--next { font-weight: 700; }
+.pagination-ellipsis {
+  font-family: var(--f-display); font-size: .6rem;
+  color: var(--ink-25); padding: 0 .2rem;
+}
+.page-info {
+  font-family: var(--f-display); font-size: .48rem;
+  font-weight: 400; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-25); padding-left: .5rem;
+}
+
+/* Nav hide animation */
+.main-nav { transition: transform .35s var(--ease), border-color .3s, box-shadow .3s; }
+.main-nav.nav--hidden { transform: translateY(-100%); }

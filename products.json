@@ -1,0 +1,56 @@
+[
+    {
+        "id": 1,
+        "name": "sweat à capuche marron",
+        "price": 2659,
+        "image": "Images/brown hoodie.jpg"
+    },
+    {
+        "id": 2,
+        "name": "sweat à capuche blanc",
+        "price": 2659,
+        "image": "Images/bwhite hoodie.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Tote bag",
+        "price": 899,
+        "image": "Images/Tote bag.jpg"
+    },
+    {
+        "id": 4,
+        "name": "T-shirt blanc",
+        "price": 800,
+        "image": "Images/t-shirt-mockup white.jpg"
+    },
+    {
+        "id": 5,
+        "name": "T-shirt marron",
+        "price": 800,
+        "image": "Images/t-shirt-mockup brown.jpg"
+    },
+    {
+        "id": 6,
+        "name": "T-shirt un Apéro",
+        "price": 800,
+        "image": "Images/t-shirt-mockup.jpg"
+    },
+    {
+        "id": 7,
+        "name": "T-shirt Batterie Faible",
+        "price": 800,
+        "image": "Images/t-shirt-mockup2.jpg" 
+    },
+    {
+        "id": 8,
+        "name": "T-shirt Moulin à paroles",
+        "price": 800,
+        "image": "Images/t-shirt-mockup3.jpg"
+    },
+    {
+        "id": 9,
+        "name": "T-shirt Bientôt musclé",
+        "price": 800,
+        "image": "Images/t-shirt-mockup4.jpg"
+    }
+]

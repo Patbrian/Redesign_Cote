@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/Images/favicon.png" type="image/png">
+  <title>Côte des voix</title>
+  <link rel="stylesheet" href="styles/cdv-design.css">
+  <link rel="stylesheet" href="styles/loading.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/podcast.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="styles/index-page.css">
+
+  <!-- Open Graph / Link Preview (logo appears when sharing link) -->
+  <meta property="og:type"         content="website">
+  <meta property="og:site_name"    content="Côte des voix">
+  <meta property="og:url"          content="https://cotedesvoix.com/">
+  <meta property="og:title"        content="Côte des voix — Podcast, Blog & Services Linguistiques">
+  <meta property="og:description"  content="Histoires, podcast, blog et services linguistiques professionnels — 100% Français, 100% Kenyan.">
+  <meta property="og:image"        content="https://cotedesvoix.com/Images/Final cote des voix logo.png">
+  <meta property="og:image:width"  content="800">
+  <meta property="og:image:height" content="800">
+  <meta property="og:locale"       content="fr_FR">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:site"        content="@CotedesVoix">
+  <meta name="twitter:title"       content="Côte des voix — Podcast, Blog & Services Linguistiques">
+  <meta name="twitter:description" content="Histoires, podcast, blog et services linguistiques — 100% Français, 100% Kenyan.">
+  <meta name="twitter:image"       content="https://cotedesvoix.com/Images/Final cote des voix logo.png">
+</head>
+<body>
+  <nav class="main-nav" aria-label="Navigation principale">
+    <div class="nav-brand">
+      <img src="Images/favicon.png" alt="Logo Côte des voix" class="nav-logo">
+      <span class="brand-title">Côte des voix</span>
+    </div>
+    <button class="hamburger" aria-label="Ouvrir le menu" aria-controls="nav-links" aria-expanded="false">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+    <div class="nav-right">
+      <button type="button" class="nav-translate" id="nav-translate" aria-label="Translate to English" title="Translate to English">EN</button>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html" class="active" data-i18n="nav-accueil">Accueil</a>
+        <a href="blog.html" data-i18n="nav-blog">Blog</a>
+        <a href="shop.html" data-i18n="nav-boutique">Boutique</a>
+        <a href="contact.html" data-i18n="nav-contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section creative-hero">
+    <div class="hero-content-wrapper">
+      <div class="hero-left">
+        <span class="hero-eyebrow">Podcast · Blog · Services linguistiques</span>
+        <h1 class="hero-title">Côte<span class="hero-title-line2">des voix</span></h1>
+        <p class="hero-desc" data-i18n="hero-desc">Histoires, podcast, blog et services linguistiques professionnels — traduction, interprétation et plus. <span class="highlight-text">100% Français, 100% Kenyan.</span> Rejoignez la communauté !</p>
+        <div class="hero-cta-group">
+          <a href="https://open.spotify.com/show/4G8qSFJJ1SNYoowvx3k8TP?si=RE4l-G0XQOaSQ_ezctxzuQ" class="button hero-btn" target="_blank" rel="noopener"><i class="fas fa-podcast"></i> <span data-i18n="hero-podcast">Écouter le Podcast</span></a>
+          <a href="blog.html" class="button hero-btn-alt"><i class="fas fa-book"></i> <span data-i18n="hero-blog">Lire le Blog</span></a>
+          <a href="interpretation.html" class="button hero-btn-interpretation"><i class="fas fa-language"></i> <span data-i18n="hero-interpretation">Services linguistiques</span></a>
+        </div>
+        <div class="hero-scroll-hint"><span class="hero-scroll-line"></span>Défiler</div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-watermark">Voix</div>
+        <div class="hero-image-collage">
+          <img src="Images/Final cote des voix logo.png" alt="Logo Côte des voix" class="hero-main-img"/>
+          <div class="hero-pill hero-pill--fr"><span class="hero-pill-dot">🇫🇷</span>Français</div>
+          <div class="hero-pill hero-pill--ke"><span class="hero-pill-dot">🇰🇪</span>Kenyan</div>
+          <img src="Images/t-shirt-mockup.jpg" alt="T-shirt Côte des voix" class="hero-collage-img img-tshirt"/>
+          <img src="Images/Notebook-Mockup.jpg" alt="Notebook Côte des voix" class="hero-collage-img img-notebook"/>
+          <img src="Images/microphone.jpg" alt="Podcast Icon" class="hero-collage-img img-podcast"/>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cdv-ticker" aria-hidden="true">
+    <div class="cdv-ticker__track">
+      <span class="cdv-ticker__item">Histoires</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Podcast</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Blog</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Interprétation</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Traduction</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Transcription</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Doublage</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Communauté</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Histoires</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Podcast</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Blog</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Interprétation</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Traduction</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Transcription</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Doublage</span><span class="cdv-ticker__sep">·</span>
+      <span class="cdv-ticker__item">Communauté</span><span class="cdv-ticker__sep">·</span>
+    </div>
+  </div>
+
+  <section class="blog-section">
+    <div class="blog-container" data-reveal>
+      <h2 data-i18n="section-articles">Derniers Articles</h2>
+      <div id="latest-posts" class="blog-grid">
+        <div id="blog-loading" class="loading"><div class="loading-spinner"><i class="fas fa-book-reader"></i></div></div>
+      </div>
+      <div class="blog-cta" data-reveal data-delay="3">
+        <a href="blog.html" class="read-more-btn"><span data-i18n="see-all-articles">Voir tous les articles</span> <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="podcast-section">
+    <div class="podcast-container" data-reveal>
+      <h2 data-i18n="section-podcasts">Derniers Podcasts</h2>
+      <div id="latest-podcasts" class="podcast-grid">
+        <div id="podcast-loading" class="loading"><div class="loading-spinner"><i class="fas fa-microphone-alt"></i></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section">
+    <h3 class="contact-title" data-i18n="contact-title" data-reveal>Contactez-Nous</h3>
+    <div class="contact-cards">
+      <div class="contact-card whatsapp-card" data-reveal data-delay="1" onclick="window.open('https://wa.me/254703634966','_blank')" tabindex="0">
+        <div class="profile-img"><img src="Images/favicon.png" alt="WhatsApp Profile"/></div>
+        <div class="contact-label"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></div>
+      </div>
+      <div class="contact-card twitter-card" data-reveal data-delay="2">
+        <a href="https://x.com/CotedesVoix?t=e0aa2DSUMkK55eKpms0f9g&s=09" target="_blank" rel="noopener" aria-label="Twitter/X">
+          <div class="profile-img"><img src="Images/favicon.png" alt="Twitter/X Profile"/></div>
+          <div class="contact-label"><i class="fab fa-twitter"></i><span>Twitter/X</span></div>
+        </a>
+        <div class="twitter-embed">
+          <a class="twitter-timeline" data-height="220" href="https://twitter.com/CotedesVoix?ref_src=twsrc%5Etfw">Tweets par CotedesVoix</a>
+        </div>
+      </div>
+      <div class="contact-card instagram-card" data-reveal data-delay="3">
+        <a href="https://www.instagram.com/cotedesvoix?igsh=ZTc2bm1nbWFsOTAw" target="_blank" rel="noopener" aria-label="Instagram">
+          <div class="profile-img"><img src="Images/favicon.png" alt="Instagram Profile"/></div>
+          <div class="contact-label"><i class="fab fa-instagram"></i><span>Instagram</span></div>
+        </a>
+        <div class="instagram-embed">
+          <iframe src="https://www.instagram.com/cotedesvoix/embed" width="220" height="220" frameborder="0" scrolling="no" allowtransparency="true" title="Flux Instagram Côte des voix"></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="contact-email" data-reveal data-delay="4">
+      <a href="mailto:cotedesvoix@gmail.com"><i class="far fa-envelope"></i> cotedesvoix@gmail.com</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-social">
+        <a href="https://wa.me/254703634966" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://x.com/CotedesVoix" aria-label="Twitter/X"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com/cotedesvoix" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 Côte des voix. <span data-i18n="footer-rights">Tous droits réservés. Créé par</span> <a href="https://www.brianmutuku.dev" target="_blank" rel="noopener">Brian Mutuku</a>.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <script src="scripts/nav.js"></script>
+  <script src="scripts/landing-translate.js"></script>
+  <script src="scripts/home-blog.js"></script>
+  <script src="scripts/home-podcast.js"></script>
+  <script src="scripts/cdv-animations.js"></script>
+</body>
+</html>
